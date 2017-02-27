@@ -1,10 +1,27 @@
 package com.adaptionsoft.games.uglytrivia;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class GameTest {
+
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    @Before
+    public void init() {
+      System.setOut(new PrintStream(outContent));
+    }
+
+    @After
+    public void end() {
+      System.setOut(null);
+    }
 
     @Test
     public void initGame_shouldInitPopQuestions() {
@@ -69,6 +86,9 @@ public class GameTest {
         assertThat(game.places[0]).isEqualTo(0);
         assertThat(game.purses[0]).isEqualTo(0);
         assertThat(game.inPenaltyBox[0]).isFalse();
+        assertThat(outContent.toString()).isEqualTo(
+                "Chet was added\n" +
+                "They are player number 1\n");
     }
 
     @Test
@@ -92,6 +112,11 @@ public class GameTest {
         assertThat(game.places[1]).isEqualTo(0);
         assertThat(game.purses[1]).isEqualTo(0);
         assertThat(game.inPenaltyBox[1]).isFalse();
+        assertThat(outContent.toString()).isEqualTo(
+                "Chet was added\n" +
+                "They are player number 1\n" +
+                "Pat was added\n" +
+                "They are player number 2\n");
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
@@ -126,6 +151,11 @@ public class GameTest {
 
         // Then
         assertThat(isPlayable).isTrue();
+        assertThat(outContent.toString()).isEqualTo(
+                "John was added\n" +
+                "They are player number 1\n" +
+                "July was added\n" +
+                "They are player number 2\n");
     }
 
     @Test
@@ -139,6 +169,9 @@ public class GameTest {
 
         // Then
         assertThat(isPlayable).isFalse();
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n");
     }
 
     @Test
@@ -152,6 +185,14 @@ public class GameTest {
 
         // Then
         assertThat(game.places[0]).isEqualTo(5);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 5\n" +
+                "Paul's new location is 5\n" +
+                "The category is Science\n" +
+                "Science Question 0\n");
     }
 
     @Test
@@ -166,6 +207,19 @@ public class GameTest {
 
         // Then
         assertThat(game.places[0]).isEqualTo(0);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 1\n" +
+                "Paul's new location is 1\n" +
+                "The category is Science\n" +
+                "Science Question 0\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 11\n" +
+                "Paul's new location is 0\n" +
+                "The category is Pop\n" +
+                "Pop Question 0\n");
     }
 
     @Test
@@ -180,6 +234,19 @@ public class GameTest {
 
         // Then
         assertThat(game.places[0]).isEqualTo(10);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 11\n" +
+                "Paul's new location is 11\n" +
+                "The category is Rock\n" +
+                "Rock Question 0\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 11\n" +
+                "Paul's new location is 10\n" +
+                "The category is Sports\n" +
+                "Sports Question 0\n");
     }
 
     @Test
@@ -195,6 +262,14 @@ public class GameTest {
         assertThat(game.places[0]).isEqualTo(0);
         assertThat(game.currentCategory()).isEqualTo("Pop");
         assertThat(game.popQuestions.size()).isEqualTo(49);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 0\n" +
+                "Paul's new location is 0\n" +
+                "The category is Pop\n" +
+                "Pop Question 0\n");
     }
 
     @Test
@@ -210,6 +285,14 @@ public class GameTest {
         assertThat(game.places[0]).isEqualTo(4);
         assertThat(game.currentCategory()).isEqualTo("Pop");
         assertThat(game.popQuestions.size()).isEqualTo(49);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 4\n" +
+                "Paul's new location is 4\n" +
+                "The category is Pop\n" +
+                "Pop Question 0\n");
     }
 
     @Test
@@ -225,6 +308,14 @@ public class GameTest {
         assertThat(game.places[0]).isEqualTo(8);
         assertThat(game.currentCategory()).isEqualTo("Pop");
         assertThat(game.popQuestions.size()).isEqualTo(49);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 8\n" +
+                "Paul's new location is 8\n" +
+                "The category is Pop\n" +
+                "Pop Question 0\n");
     }
 
     @Test
@@ -240,6 +331,14 @@ public class GameTest {
         assertThat(game.places[0]).isEqualTo(1);
         assertThat(game.currentCategory()).isEqualTo("Science");
         assertThat(game.scienceQuestions.size()).isEqualTo(49);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 1\n" +
+                "Paul's new location is 1\n" +
+                "The category is Science\n" +
+                "Science Question 0\n");
     }
 
     @Test
@@ -255,6 +354,14 @@ public class GameTest {
         assertThat(game.places[0]).isEqualTo(5);
         assertThat(game.currentCategory()).isEqualTo("Science");
         assertThat(game.scienceQuestions.size()).isEqualTo(49);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 5\n" +
+                "Paul's new location is 5\n" +
+                "The category is Science\n" +
+                "Science Question 0\n");
     }
 
     @Test
@@ -270,6 +377,14 @@ public class GameTest {
         assertThat(game.places[0]).isEqualTo(9);
         assertThat(game.currentCategory()).isEqualTo("Science");
         assertThat(game.scienceQuestions.size()).isEqualTo(49);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 9\n" +
+                "Paul's new location is 9\n" +
+                "The category is Science\n" +
+                "Science Question 0\n");
     }
 
     @Test
@@ -285,6 +400,14 @@ public class GameTest {
         assertThat(game.places[0]).isEqualTo(2);
         assertThat(game.currentCategory()).isEqualTo("Sports");
         assertThat(game.sportsQuestions.size()).isEqualTo(49);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 2\n" +
+                "Paul's new location is 2\n" +
+                "The category is Sports\n" +
+                "Sports Question 0\n");
     }
 
     @Test
@@ -300,6 +423,14 @@ public class GameTest {
         assertThat(game.places[0]).isEqualTo(6);
         assertThat(game.currentCategory()).isEqualTo("Sports");
         assertThat(game.sportsQuestions.size()).isEqualTo(49);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 6\n" +
+                "Paul's new location is 6\n" +
+                "The category is Sports\n" +
+                "Sports Question 0\n");
     }
 
     @Test
@@ -315,6 +446,14 @@ public class GameTest {
         assertThat(game.places[0]).isEqualTo(10);
         assertThat(game.currentCategory()).isEqualTo("Sports");
         assertThat(game.sportsQuestions.size()).isEqualTo(49);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 10\n" +
+                "Paul's new location is 10\n" +
+                "The category is Sports\n" +
+                "Sports Question 0\n");
     }
 
     @Test
@@ -330,6 +469,14 @@ public class GameTest {
         assertThat(game.places[0]).isEqualTo(3);
         assertThat(game.currentCategory()).isEqualTo("Rock");
         assertThat(game.rockQuestions.size()).isEqualTo(49);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 3\n" +
+                "Paul's new location is 3\n" +
+                "The category is Rock\n" +
+                "Rock Question 0\n");
     }
 
     @Test
@@ -345,6 +492,14 @@ public class GameTest {
         assertThat(game.places[0]).isEqualTo(7);
         assertThat(game.currentCategory()).isEqualTo("Rock");
         assertThat(game.rockQuestions.size()).isEqualTo(49);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 7\n" +
+                "Paul's new location is 7\n" +
+                "The category is Rock\n" +
+                "Rock Question 0\n");
     }
 
     @Test
@@ -360,6 +515,14 @@ public class GameTest {
         assertThat(game.places[0]).isEqualTo(11);
         assertThat(game.currentCategory()).isEqualTo("Rock");
         assertThat(game.rockQuestions.size()).isEqualTo(49);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 11\n" +
+                "Paul's new location is 11\n" +
+                "The category is Rock\n" +
+                "Rock Question 0\n");
     }
 
     @Test
@@ -375,6 +538,14 @@ public class GameTest {
         assertThat(game.places[0]).isEqualTo(0);
         assertThat(game.currentCategory()).isEqualTo("Pop");
         assertThat(game.popQuestions.size()).isEqualTo(49);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 12\n" +
+                "Paul's new location is 0\n" +
+                "The category is Pop\n" +
+                "Pop Question 0\n");
     }
 
     @Test
@@ -390,6 +561,19 @@ public class GameTest {
 
         // Then
         assertThat(game.isGettingOutOfPenaltyBox).isFalse();
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 1\n" +
+                "Paul's new location is 1\n" +
+                "The category is Science\n" +
+                "Science Question 0\n" +
+                "Question was incorrectly answered\n" +
+                "Paul was sent to the penalty box\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 2\n" +
+                "Paul is not getting out of the penalty box\n");
     }
 
     @Test
@@ -406,6 +590,22 @@ public class GameTest {
         // Then
         assertThat(game.places[0]).isEqualTo(4);
         assertThat(game.isGettingOutOfPenaltyBox).isTrue();
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 1\n" +
+                "Paul's new location is 1\n" +
+                "The category is Science\n" +
+                "Science Question 0\n" +
+                "Question was incorrectly answered\n" +
+                "Paul was sent to the penalty box\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 3\n" +
+                "Paul is getting out of the penalty box\n" +
+                "Paul's new location is 4\n" +
+                "The category is Pop\n" +
+                "Pop Question 0\n");
     }
 
     @Test
@@ -422,6 +622,22 @@ public class GameTest {
         // Then
         assertThat(game.places[0]).isEqualTo(2);
         assertThat(game.isGettingOutOfPenaltyBox).isTrue();
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 1\n" +
+                "Paul's new location is 1\n" +
+                "The category is Science\n" +
+                "Science Question 0\n" +
+                "Question was incorrectly answered\n" +
+                "Paul was sent to the penalty box\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 13\n" +
+                "Paul is getting out of the penalty box\n" +
+                "Paul's new location is 2\n" +
+                "The category is Sports\n" +
+                "Sports Question 0\n");
     }
 
     @Test
@@ -438,6 +654,18 @@ public class GameTest {
         // Then
         assertThat(game.inPenaltyBox[0]).isTrue();
         assertThat(game.currentPlayer).isEqualTo(1);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Jean was added\n" +
+                "They are player number 2\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 3\n" +
+                "Paul's new location is 3\n" +
+                "The category is Rock\n" +
+                "Rock Question 0\n" +
+                "Question was incorrectly answered\n" +
+                "Paul was sent to the penalty box\n");
     }
 
     @Test
@@ -456,6 +684,20 @@ public class GameTest {
         assertThat(game.inPenaltyBox[0]).isFalse();
         assertThat(game.inPenaltyBox[1]).isTrue();
         assertThat(game.currentPlayer).isEqualTo(0);
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Jean was added\n" +
+                "They are player number 2\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 3\n" +
+                "Paul's new location is 3\n" +
+                "The category is Rock\n" +
+                "Rock Question 0\n" +
+                "Answer was corrent!!!!\n" +
+                "Paul now has 1 Gold Coins.\n" +
+                "Question was incorrectly answered\n" +
+                "Jean was sent to the penalty box\n");
     }
 
     @Test
@@ -472,6 +714,16 @@ public class GameTest {
         assertThat(game.purses[0]).isEqualTo(1);
         assertThat(game.currentPlayer).isEqualTo(0);
         assertThat(hasWinner).isTrue();
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 3\n" +
+                "Paul's new location is 3\n" +
+                "The category is Rock\n" +
+                "Rock Question 0\n" +
+                "Answer was corrent!!!!\n" +
+                "Paul now has 1 Gold Coins.\n");
     }
 
     @Test
@@ -510,6 +762,88 @@ public class GameTest {
         assertThat(game.purses[0]).isEqualTo(6);
         assertThat(game.currentPlayer).isEqualTo(1);
         assertThat(hasWinner).isFalse();
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "July was added\n" +
+                "They are player number 2\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 1\n" +
+                "Paul's new location is 1\n" +
+                "The category is Science\n" +
+                "Science Question 0\n" +
+                "Answer was corrent!!!!\n" +
+                "Paul now has 1 Gold Coins.\n" +
+                "July is the current player\n" +
+                "They have rolled a 1\n" +
+                "July's new location is 1\n" +
+                "The category is Science\n" +
+                "Science Question 1\n" +
+                "Answer was corrent!!!!\n" +
+                "July now has 1 Gold Coins.\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 1\n" +
+                "Paul's new location is 2\n" +
+                "The category is Sports\n" +
+                "Sports Question 0\n" +
+                "Answer was corrent!!!!\n" +
+                "Paul now has 2 Gold Coins.\n" +
+                "July is the current player\n" +
+                "They have rolled a 1\n" +
+                "July's new location is 2\n" +
+                "The category is Sports\n" +
+                "Sports Question 1\n" +
+                "Answer was corrent!!!!\n" +
+                "July now has 2 Gold Coins.\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 1\n" +
+                "Paul's new location is 3\n" +
+                "The category is Rock\n" +
+                "Rock Question 0\n" +
+                "Answer was corrent!!!!\n" +
+                "Paul now has 3 Gold Coins.\n" +
+                "July is the current player\n" +
+                "They have rolled a 1\n" +
+                "July's new location is 3\n" +
+                "The category is Rock\n" +
+                "Rock Question 1\n" +
+                "Answer was corrent!!!!\n" +
+                "July now has 3 Gold Coins.\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 1\n" +
+                "Paul's new location is 4\n" +
+                "The category is Pop\n" +
+                "Pop Question 0\n" +
+                "Answer was corrent!!!!\n" +
+                "Paul now has 4 Gold Coins.\n" +
+                "July is the current player\n" +
+                "They have rolled a 1\n" +
+                "July's new location is 4\n" +
+                "The category is Pop\n" +
+                "Pop Question 1\n" +
+                "Answer was corrent!!!!\n" +
+                "July now has 4 Gold Coins.\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 1\n" +
+                "Paul's new location is 5\n" +
+                "The category is Science\n" +
+                "Science Question 2\n" +
+                "Answer was corrent!!!!\n" +
+                "Paul now has 5 Gold Coins.\n" +
+                "July is the current player\n" +
+                "They have rolled a 1\n" +
+                "July's new location is 5\n" +
+                "The category is Science\n" +
+                "Science Question 3\n" +
+                "Answer was corrent!!!!\n" +
+                "July now has 5 Gold Coins.\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 1\n" +
+                "Paul's new location is 6\n" +
+                "The category is Sports\n" +
+                "Sports Question 2\n" +
+                "Answer was corrent!!!!\n" +
+                "Paul now has 6 Gold Coins.\n");
     }
 
     @Test
@@ -528,6 +862,24 @@ public class GameTest {
         assertThat(game.purses[0]).isEqualTo(1);
         assertThat(game.currentPlayer).isEqualTo(0);
         assertThat(hasWinner).isTrue();
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 3\n" +
+                "Paul's new location is 3\n" +
+                "The category is Rock\n" +
+                "Rock Question 0\n" +
+                "Question was incorrectly answered\n" +
+                "Paul was sent to the penalty box\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 3\n" +
+                "Paul is getting out of the penalty box\n" +
+                "Paul's new location is 6\n" +
+                "The category is Sports\n" +
+                "Sports Question 0\n" +
+                "Answer was correct!!!!\n" +
+                "Paul now has 1 Gold Coins.\n");
     }
 
     @Test
@@ -546,6 +898,19 @@ public class GameTest {
         assertThat(game.purses[0]).isEqualTo(0);
         assertThat(game.currentPlayer).isEqualTo(0);
         assertThat(hasWinner).isTrue();
+        assertThat(outContent.toString()).isEqualTo(
+                "Paul was added\n" +
+                "They are player number 1\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 3\n" +
+                "Paul's new location is 3\n" +
+                "The category is Rock\n" +
+                "Rock Question 0\n" +
+                "Question was incorrectly answered\n" +
+                "Paul was sent to the penalty box\n" +
+                "Paul is the current player\n" +
+                "They have rolled a 2\n" +
+                "Paul is not getting out of the penalty box\n");
     }
 
 }
