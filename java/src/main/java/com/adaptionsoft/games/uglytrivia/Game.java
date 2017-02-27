@@ -99,7 +99,7 @@ public class Game {
 	}
 	
 	
-	private String currentCategory() {
+	protected String currentCategory() {
 		if (places[currentPlayer] == 0) return "Pop";
 		if (places[currentPlayer] == 4) return "Pop";
 		if (places[currentPlayer] == 8) return "Pop";
