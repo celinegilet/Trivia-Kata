@@ -1,6 +1,6 @@
 package com.adaptionsoft.games.uglytrivia;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static com.adaptionsoft.games.uglytrivia.Category.*;
 import static org.assertj.core.api.Assertions.assertThat;

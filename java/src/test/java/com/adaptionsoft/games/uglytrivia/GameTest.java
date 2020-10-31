@@ -1,8 +1,8 @@
 package com.adaptionsoft.games.uglytrivia;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -14,12 +14,12 @@ public class GameTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
-    @Before
+    @BeforeEach
     public void init() {
       System.setOut(new PrintStream(outContent));
     }
 
-    @After
+    @AfterEach
     public void end() {
       System.setOut(null);
     }
